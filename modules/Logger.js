@@ -11,6 +11,7 @@ module.exports = class Logger {
 	}
 
 	log(str) {
+		console.log('Logger.log(str)');
 		setTimeout(() => {
 			console.log(`${foo} ${str}`);
 		}, 1000);
@@ -21,6 +22,11 @@ module.exports = class Logger {
 		})(foo);
 		console.log(`${foo} ${str}`);
 		foo = 'bar';
+	};
+
+	debug(str) {
+		console.log('Logger.debug(str)');
+		console.debug(str);
 	};
 
 	logThrice() {
@@ -35,6 +41,10 @@ module.exports = class Logger {
 				console.log(`${arguments[0]} ${arguments[1]} ${arguments[2]}`);
 				break;
 		}
+	};
+
+	[internal_function]() {
+		console.log("only intern");
 	};
 };
 
