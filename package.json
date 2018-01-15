@@ -1,0 +1,22 @@
+{
+  "name": "nodejs-schulung",
+  "version": "0.0.1",
+  "description": "Node.js Schulung",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GregorSondermeier/nodejs-schulung.git"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "Gregor Sondermeier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GregorSondermeier/nodejs-schulung/issues"
+  },
+  "homepage": "https://github.com/GregorSondermeier/nodejs-schulung#readme"
+}
