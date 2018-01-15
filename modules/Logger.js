@@ -2,13 +2,15 @@ console.log("=========");
 console.log("Logger.js");
 // console.log("module before:", module);
 // console.log("this before:", this);
+let foo = 'foo';
+module.exports = class Logger {
+	// foo = 'foo';
 
-module.exports = function Logger() {
-	console.log('Logger constructor()');
+	constructor() {
+		console.log('Logger constructor()');
+	}
 
-	let foo = 'foo';
-
-	this.log = (str) => {
+	log(str) {
 		setTimeout(() => {
 			console.log(`${foo} ${str}`);
 		}, 1000);
@@ -21,7 +23,7 @@ module.exports = function Logger() {
 		foo = 'bar';
 	};
 
-	this.logThrice = function() {
+	logThrice() {
 		switch (arguments.length) {
 			case 1:
 				console.log(arguments[0]);
