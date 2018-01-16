@@ -19,16 +19,20 @@ namespace gs {
 	export interface IPerson {
 		name: string;
 		height: number;
-		sayHello?: () => string;
-		marry?: (partner: IPerson) => void;
+		sayHello?: () => Promise<string>;
+		marry?: (partner: gs.IPerson) => void;
 		divorce?: () => void;
 	}
+}
 
+namespace gs {
 	export interface IStudent extends IPerson {
 		university: string;
 		study?: () => void;
 	}
+}
 
+namespace gs {
 	export interface IWorker extends IPerson {
 		company: string;
 		work?: () => void;
@@ -39,7 +43,7 @@ namespace gs {
 	export class Person implements gs.IPerson {
 		name: string;
 		height: number;
-		private _partner?: Person = undefined;
+		private _partner?: gs.Person = undefined;
 		private _married: boolean = false;
 
 		constructor(p: gs.IPerson) {
@@ -47,8 +51,16 @@ namespace gs {
 			this.height = p.height;
 		}
 
-		sayHello(): string {
-			return `Hello, my name is ${this.name}`;
+		sayHello(): Promise<string> {
+			return new Promise((resolve, reject) => {
+				setTimeout(() => {
+					if (Math.random() < 0.25) {
+						reject(new Error('Math.random() yielded < 0.25.'));
+					} else {
+						resolve(`Hello, my name is ${this.name}.`);
+					}
+				}, 2000);
+			});
 		}
 
 		get partner(): gs.Person | undefined {
@@ -56,12 +68,12 @@ namespace gs {
 		}
 
 		set partner(partner: gs.Person | undefined) {
-			if (this._partner) {
-				throw new Error(`Person ${this.name} already has a partner`);
+			if (partner && this._partner && partner == this._partner) {
+				console.log(`${this.name} already has ${this._partner.name} as partner.`);
+			} else if (this._partner) {
+				throw new Error(`Person ${this.name} already has a partner.`);
 			} else if (partner == this) {
-				throw new Error(`${this.name} can't have himself/herself as a partner`);
-			} else if (partner && partner == this._partner) {
-				console.log(`${this.name} already has ${partner.name} as partner`);
+				throw new Error(`${this.name} can't have himself/herself as a partner.`);
 			} else {
 				this._partner = partner;
 			}
@@ -69,11 +81,11 @@ namespace gs {
 
 		marry(): void {
 			if (this._married) {
-				throw new Error(`Person ${this.name} can't marry because he/she is already married`);
+				throw new Error(`Person ${this.name} can't marry because he/she is already married.`);
 			} else if (!this._partner) {
-				throw new Error(`Person ${this.name} can't marry because he/she has no Partner`);
+				throw new Error(`Person ${this.name} can't marry because he/she has no Partner.`);
 			} else if (this._partner == this) {
-				throw new Error(`Person ${this.name} can't marry himself/herself`);
+				throw new Error(`Person ${this.name} can't marry himself/herself.`);
 			} else {
 				this._married = true;
 			}
@@ -128,5 +140,34 @@ let lisa: gs.Person = new gs.Person({
 gregor.partner = lisa;
 lisa.partner = gregor;
 
-logger.log(gregor.sayHello());
+gregor.sayHello()
+	.then((msg: string): string => {
+		logger.log(msg);
+		return `${gregor.name} just greeted.`;
+	})
+	.then((msg: string): void => {
+		logger.log(msg);
+	})
+	.catch((err: Error) => {
+		console.error(err);
+	});
+
+let promises = [
+	gregor.sayHello(),
+	lisa.sayHello()
+];
+Promise.all(promises)
+	.then((msgs: Array<string>) => {
+		msgs.forEach((msg: string) => {
+			logger.log(<string>msg);
+		});
+		return msgs.length;
+	})
+	.catch((err: Error) => {
+		console.error(err);
+	})
+	.then((msgsLength = 0) => {
+		logger.log(`${msgsLength} person(s) just greeted.`);
+	});
+
 console.log('gregor:', gregor);
