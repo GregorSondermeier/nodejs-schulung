@@ -1,16 +1,19 @@
-class Logger {
-	private foo: string = 'Logger';
-
-	constructor() {
-		console.debug('Logger constructor()');
+namespace gs {
+	export interface ILogger {
+		log: (msg: string) => void;
 	}
+}
+namespace gs {
+	export class Logger implements gs.ILogger {
+		private foo: string = 'Logger';
 
-	log(msg: string): void {
-		console.log(`${this.foo}: ${msg}`);
+		log(msg: string): void {
+			console.log(`${this.foo}: ${msg}`);
+		}
 	}
 }
 
-let logger: Logger = new Logger();
+let logger: gs.Logger = new gs.Logger();
 logger.log('Hello World!');
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -51,7 +54,7 @@ namespace gs {
 			this.height = p.height;
 		}
 
-		sayHello(): Promise<string> {
+		sayHello(delay: number = 2000): Promise<string> {
 			return new Promise((resolve, reject) => {
 				setTimeout(() => {
 					if (Math.random() < 0.25) {
@@ -59,7 +62,7 @@ namespace gs {
 					} else {
 						resolve(`Hello, my name is ${this.name}.`);
 					}
-				}, 2000);
+				}, delay);
 			});
 		}
 
@@ -140,7 +143,7 @@ let lisa: gs.Person = new gs.Person({
 gregor.partner = lisa;
 lisa.partner = gregor;
 
-gregor.sayHello()
+gregor.sayHello(1000)
 	.then((msg: string): string => {
 		logger.log(msg);
 		return `${gregor.name} just greeted.`;
@@ -153,11 +156,12 @@ gregor.sayHello()
 	});
 
 let promises = [
-	gregor.sayHello(),
-	lisa.sayHello()
+	gregor.sayHello(1000),
+	lisa.sayHello(2000)
 ];
 Promise.all(promises)
 	.then((msgs: Array<string>) => {
+		logger.log('=========');
 		msgs.forEach((msg: string) => {
 			logger.log(<string>msg);
 		});
