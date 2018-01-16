@@ -1,6 +1,6 @@
 {
   "name": "nodejs-schulung",
-  "version": "0.0.1",
+  "version": "npm ",
   "description": "Node.js Schulung",
   "main": "index.js",
   "scripts": {
