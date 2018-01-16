@@ -1,0 +1,32 @@
+{
+  "name": "org.javacream.training.typescript",
+  "version": "1.0.0",
+  "description": "Training project for TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "serve": "lite-server",
+    "compile": "tsc --outDir ./dist  ./ts/*.ts",
+    "compile-watch": "tsc -w --outDir ./dist  ./ts/*.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"npm run compile-watch\" \"npm run serve\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JavacreamTraining/org.javacream.training.typescript.git"
+  },
+  "keywords": [
+    "TypeScript",
+    "JavaScript"
+  ],
+  "author": "Rainer Sawitzki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JavacreamTraining/org.javacream.training.typescript/issues"
+  },
+  "homepage": "https://github.com/JavacreamTraining/org.javacream.training.typescript#readme",
+  "devDependencies": {
+    "concurrently": "^3.5.0",
+    "lite-server": "^2.3.0",
+    "typescript": "^2.6.1"
+  }
+}
