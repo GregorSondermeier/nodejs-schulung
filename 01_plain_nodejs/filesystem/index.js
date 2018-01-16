@@ -1,5 +1,6 @@
-const fs = require('fs'),
-	path = require('path');
+const bluebird = require('bluebird'),
+	// path = require('path'),
+	fs = bluebird.promisifyAll(require('fs'));
 
 function copyFile(source, target, cb) {
 	let cbCalled = false;
@@ -36,8 +37,9 @@ function copyFile(source, target, cb) {
 function copyFolder(source, target) {
 	let files = [];
 
-	//check if folder needs to be created or integrated
-	function createTargetIfNotExists(target, cb) {
+	// check if folder needs to be created or integrated
+
+	/* function createTargetIfNotExists(target, cb) {
 		fs.open(target, 'r', (err, fd) => {
 			if (err) {
 				if (err.code === 'ENOENT') {
@@ -53,11 +55,44 @@ function copyFolder(source, target) {
 				cb(target);
 			}
 		});
-	}
+	} */
 
-	createTargetIfNotExists(target, (existingTarget) => {
+	fs.openAsync(target, 'r')
+		// if target folder exists, use it
+		.then(() => {
+			return target;
+		})
+		// if target folder doesn't exist, create it
+		.catch((err) => {
+			if (err.code === 'ENOENT') {
+				return fs.mkdirAsync(target)
+					.then(() => {
+						return target;
+					})
+					.catch((err) => {
+						console.log(err);
+						return err;
+					});
+			} else {
+				return err;
+			}
 
-	});
+		})
+		.then((target) => {
+			console.log('then');
+			console.log(target);
+
+			fs.lstatAsync(source)
+				.then((lstat) => {
+					if (lstat.isDirectory()) {
+
+					}
+				})
+		})
+		.catch((err) => {
+			console.log('catch');
+			console.log(err);
+		});
 
 	/*
 	//copy

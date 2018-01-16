@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/GregorSondermeier/nodejs-schulung/issues"
   },
-  "homepage": "https://github.com/GregorSondermeier/nodejs-schulung#readme"
+  "homepage": "https://github.com/GregorSondermeier/nodejs-schulung#readme",
+  "devDependencies": {
+    "bluebird": "3.5.1"
+  }
 }
