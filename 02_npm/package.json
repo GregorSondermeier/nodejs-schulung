@@ -1,22 +1,26 @@
 {
-  "name": "nodejs-schulung-01-plain-nodejs",
+  "name": "nodejs-schulung-02-npm",
   "version": "0.0.1",
-  "description": "Node.js Schulung, 01: Plain Node.js",
+  "description": "Node.js Schulung, 02: npm",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GregorSondermeier/nodejs-schulung.git"
   },
   "keywords": [
-    "nodejs"
+    "nodejs",
+    "npm"
   ],
   "author": "Gregor Sondermeier",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/GregorSondermeier/nodejs-schulung/issues"
   },
-  "homepage": "https://github.com/GregorSondermeier/nodejs-schulung#readme"
+  "homepage": "https://github.com/GregorSondermeier/nodejs-schulung#readme",
+  "devDependencies": {
+    "jasmine": "2.8.0"
+  }
 }
