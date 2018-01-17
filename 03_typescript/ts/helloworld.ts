@@ -19,26 +19,35 @@ logger.log('Hello World!');
 /////////////////////////////////////////////////////////////////////////////////
 
 namespace gs {
-	export interface IPerson {
+	export interface IPersonData {
 		name: string;
 		height: number;
-		sayHello?: () => Promise<string>;
-		marry?: (partner: gs.IPerson) => void;
-		divorce?: () => void;
+	}
+
+	export interface IPerson extends gs.IPersonData {
+		sayHello(): Promise<string>;
+		marry(partner: gs.IPerson): void;
+		divorce(): void;
 	}
 }
 
 namespace gs {
-	export interface IStudent extends IPerson {
+	export interface IStudentData extends gs.IPersonData {
 		university: string;
-		study?: () => void;
+	}
+
+	export interface IStudent extends gs.IStudentData, gs.IPerson {
+		study(): void;
 	}
 }
 
 namespace gs {
-	export interface IWorker extends IPerson {
+	export interface IEmployeeData extends gs.IPersonData {
 		company: string;
-		work?: () => void;
+	}
+
+	export interface IEmployee extends gs.IEmployeeData, gs.IPerson {
+		work(): void;
 	}
 }
 
@@ -49,7 +58,7 @@ namespace gs {
 		private _partner?: gs.Person = undefined;
 		private _married: boolean = false;
 
-		constructor(p: gs.IPerson) {
+		constructor(p: gs.IPersonData) {
 			this.name = p.name;
 			this.height = p.height;
 		}
@@ -105,7 +114,7 @@ namespace gs {
 	export class Student extends gs.Person implements gs.IStudent {
 		university: string;
 
-		constructor(s: gs.IStudent) {
+		constructor(s: gs.IStudentData) {
 			super(s);
 			this.university = s.university;
 		}
@@ -117,10 +126,10 @@ namespace gs {
 }
 
 namespace gs {
-	export class Employee extends gs.Person implements gs.IWorker {
+	export class Employee extends gs.Person implements gs.IEmployee {
 		company: string;
 
-		constructor(e: gs.IWorker) {
+		constructor(e: gs.IEmployeeData) {
 			super(e);
 			this.company = e.company;
 		}
